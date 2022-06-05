@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="05a750e4-5968-490f-a3d2-dc4ed7a91bdf" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="proofofonerrorcontinuepocFlow" doc:id="1f174f9b-d47e-499f-8610-4d8453b2334f" >
+		<http:listener doc:name="Listener" doc:id="ac19afca-18f5-4af9-a1c4-15341e54dee4" config-ref="HTTP_Listener_config" path="/test"/>
+		<logger level="INFO" doc:name="Logger" doc:id="e4903890-a425-4779-a66c-bdb2a6acf1e4" />
+		<validation:is-null doc:name="Is null" doc:id="bfddf81c-3737-4d8c-bc2c-3b879ee2e6ad" value="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d97d7285-1ec7-4abe-906f-7d36c81ae4e4" />
+		<error-handler>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a566f382-d9a9-4f2f-b5c1-89b4f11ccb5f" >
+				<logger level="INFO" doc:name="Logger" doc:id="09cbea16-6bc1-4208-a7f1-6370e691660c" />
+				<set-payload value="i m onerrorpropagate i rethrow error" doc:name="Set Payload" doc:id="2d9c522d-80ae-47fd-baff-014af232c7d7" />
+				<logger level="INFO" doc:name="Logger" doc:id="f9166cc1-391c-4070-bfc7-f40499bf7eb7" />
+				<logger level="INFO" doc:name="Logger" doc:id="f14c3e34-f539-407f-aa6c-4e7117967e0e" />
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>
